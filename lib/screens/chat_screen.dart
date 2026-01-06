@@ -18,6 +18,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+  bool _isTyping = false; // ✅ LOCAL typing state
+
   void _sendMessage() {
     if (_controller.text.trim().isEmpty) return;
 
@@ -26,6 +28,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         .sendMessage(widget.channelName, _controller.text.trim());
 
     _controller.clear();
+
+    setState(() => _isTyping = false);
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {
@@ -85,7 +89,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
 
           // ---------------- Reply Preview ----------------
-
           if (replyingTo != null)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -116,15 +119,32 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ],
               ),
             ),
+
+          // ---------------- Typing Indicator (LOCAL) ----------------
+          if (_isTyping)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'You are Typing...',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+            ),
+
+          // ---------------- Input ----------------
           SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: scheme.surface,
                 border: Border(
-                  top: BorderSide(
-                    color: scheme.outlineVariant,
-                  ),
+                  top: BorderSide(color: scheme.outlineVariant),
                 ),
               ),
               child: Row(
@@ -134,11 +154,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       controller: _controller,
                       decoration: InputDecoration(
                         hintText: 'Message #channel',
-                        hintStyle: TextStyle(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                        hintStyle: TextStyle(color: scheme.onSurfaceVariant),
                         border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _isTyping = value.trim().isNotEmpty;
+                        });
+                      },
                       onSubmitted: (_) => _sendMessage(),
                     ),
                   ),
@@ -155,6 +178,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 }
+
+// ---------------- Message Bubble ----------------
 
 class _MessageBubble extends StatelessWidget {
   final Message message;
@@ -247,10 +272,7 @@ class _MessageBubble extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     message.reactions.join(' '),
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: scheme.onSurface,
-                    ),
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
               TextButton(

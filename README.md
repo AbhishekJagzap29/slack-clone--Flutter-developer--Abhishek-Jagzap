@@ -43,7 +43,8 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
   - Timestamp
   - Text message
 - Emoji reactions (👍 ❤️ 😂 🔥)
-- Inline reply support
+- - WhatsApp-style inline reply with reply preview and pinned replied message
+
 - Messages isolated per channel
 
 ### 🎨 UI / UX
@@ -109,6 +110,6 @@ This project uses a **mocked backend**:
 
 ## ▶️ How to Run
 
-1 flutter pub get
-2. flutter run
-
+```vscode
+flutter pub get
+flutter run

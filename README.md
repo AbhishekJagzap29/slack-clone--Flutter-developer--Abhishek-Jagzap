@@ -6,8 +6,6 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
 
 ## 🎥 Demo Proof 
 
-
-- 
 ### 📌 Recording Covers
 - Login with username & password
 - Viewing channel list (`#general`, `#random`)

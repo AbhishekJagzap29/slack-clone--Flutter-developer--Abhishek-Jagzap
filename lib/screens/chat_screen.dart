@@ -269,14 +269,36 @@ class _MessageBubble extends StatelessWidget {
                   ],
                 ),
               ),
+              // if (message.reactions.isNotEmpty)
+              //   Padding(
+              //     padding: const EdgeInsets.only(top: 4),
+              //     child: Text(
+              //       message.reactions.join(' '),
+              //       style: TextStyle(fontSize: 14),
+              //     ),
+              //   ),
               if (message.reactions.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    message.reactions.join(' '),
-                    style: TextStyle(fontSize: 14),
+                  child: Wrap(
+                    spacing: 6,
+                    children: message.reactions.entries.map((entry) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: scheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          '${entry.key} ${entry.value}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
+
               TextButton(
                 onPressed: () {
                   ref.read(chatServiceProvider).setReply(message.text);

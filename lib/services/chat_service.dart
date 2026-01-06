@@ -67,8 +67,18 @@ class ChatService {
 
   void addReaction(String channel, int index, String emoji) {
     final msg = _channelMessages[channel]![index];
+
+    // Create a mutable copy of reactions map
+    final updatedReactions = Map<String, int>.from(msg.reactions);
+
+    if (updatedReactions.containsKey(emoji)) {
+      updatedReactions[emoji] = updatedReactions[emoji]! + 1;
+    } else {
+      updatedReactions[emoji] = 1;
+    }
+
     _channelMessages[channel]![index] =
-        msg.copyWith(reactions: [...msg.reactions, emoji]);
+        msg.copyWith(reactions: updatedReactions);
 
     _controllers[channel]!.add(
       List.from(_channelMessages[channel]!),

@@ -12,7 +12,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
+
   bool _obscure = true;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _usernameCtrl.dispose();
+    _passwordCtrl.dispose();
+    super.dispose();
+  }
 
   InputDecoration _decoration(
     BuildContext context, {
@@ -29,10 +38,29 @@ class _LoginScreenState extends State<LoginScreen> {
       filled: true,
       fillColor: scheme.surfaceVariant,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
       ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       errorStyle: TextStyle(color: scheme.error, fontSize: 12),
+    );
+  }
+
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    /// Simulate API call
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    setState(() => _isLoading = false);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const ChannelListScreen()),
     );
   }
 
@@ -59,22 +87,25 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Form(
               key: _formKey,
               child: Card(
-                elevation: isDark ? 2 : 12,
+                elevation: isDark ? 3 : 12,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(22),
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      /// App Logo
                       Image.asset(
                         'assets/images/slack.png',
                         height: 80,
                         color: isDark ? scheme.primary : null,
                       ),
                       const SizedBox(height: 20),
+
+                      /// Title
                       Text(
                         'Welcome Back',
                         style: theme.textTheme.headlineSmall
@@ -82,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Login to your workspace',
+                        'Sign in to continue to your workspace',
                         style: theme.textTheme.bodyMedium
                             ?.copyWith(color: scheme.onSurfaceVariant),
                       ),
@@ -91,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       /// Username
                       TextFormField(
                         controller: _usernameCtrl,
+                        textInputAction: TextInputAction.next,
                         decoration: _decoration(
                           context,
                           label: 'Username',
@@ -100,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? 'Username is required'
                             : null,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 18),
 
                       /// Password
                       TextFormField(
@@ -115,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               _obscure
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: scheme.onSurfaceVariant,
                             ),
                             onPressed: () =>
                                 setState(() => _obscure = !_obscure),
@@ -131,37 +162,41 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 30),
 
-                      /// Login Button
+                      /// Login Button with Loader
                       SizedBox(
                         width: double.infinity,
-                        height: 50,
+                        height: 52,
                         child: ElevatedButton(
+                          onPressed: _isLoading ? null : _handleLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: scheme.primary,
                             foregroundColor: scheme.onPrimary,
-                            elevation: isDark ? 0 : 4,
+                            disabledBackgroundColor:
+                                scheme.primary.withOpacity(0.6),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const ChannelListScreen(),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    height: 22,
+                                    width: 22,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),

@@ -3,22 +3,24 @@ class Message {
   final String sender;
   final DateTime time;
   final String? replyTo;
-  final List<String> reactions;
+
+  // ✅ Emoji -> Count (👍 : 2)
+  final Map<String, int> reactions;
 
   Message({
     required this.text,
     required this.sender,
     required this.time,
     this.replyTo,
-    this.reactions = const [],
-  });
+    Map<String, int>? reactions,
+  }) : reactions = reactions ?? {};
 
   Message copyWith({
     String? text,
     String? sender,
     DateTime? time,
     String? replyTo,
-    List<String>? reactions,
+    Map<String, int>? reactions,
   }) {
     return Message(
       text: text ?? this.text,

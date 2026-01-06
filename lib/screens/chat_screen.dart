@@ -85,6 +85,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
 
           // ---------------- Reply Preview ----------------
+
           if (replyingTo != null)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -115,8 +116,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ],
               ),
             ),
-
-          // ---------------- Input ----------------
           SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -156,8 +155,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     );
   }
 }
-
-// ---------------- Message Bubble ----------------
 
 class _MessageBubble extends StatelessWidget {
   final Message message;

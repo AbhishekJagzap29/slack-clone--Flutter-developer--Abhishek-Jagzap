@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/chat_provider.dart';
+import '/providers/chat_provider.dart';
 import 'chat_screen.dart';
 import 'login_screen.dart';
 

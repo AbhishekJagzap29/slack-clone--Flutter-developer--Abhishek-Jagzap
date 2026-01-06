@@ -18,7 +18,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  bool _isTyping = false; // ✅ LOCAL typing state
+  bool _isTyping = false;
 
   void _sendMessage() {
     if (_controller.text.trim().isEmpty) return;
@@ -121,6 +121,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
 
           // ---------------- Typing Indicator (LOCAL) ----------------
+
           if (_isTyping)
             Padding(
               padding: const EdgeInsets.only(left: 16, bottom: 4),
@@ -138,6 +139,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
 
           // ---------------- Input ----------------
+
           SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

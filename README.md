@@ -8,6 +8,8 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
 
 ### 📌 Recording Covers
 - Login with username & password
+- Mocked login with username & password validation  
+- Password must be **at least 4 characters** (shorter passwords are treated as invalid)  
 - Viewing channel list (`#general`, `#random`)
 - Opening a channel
 - Sending messages
@@ -23,8 +25,11 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
 ## 🚀 Features
 
 ### 🔐 Authentication & Workspace
-- Mocked login with username & password validation
-- Automatically joins a **default workspace** after login
+
+- Mocked login with username & password validation  
+- Password must be **at least 4 characters** (shorter passwords are treated as invalid)  
+- Automatically joins a **default workspace** after successful login
+
 
 ### 📂 Channel List
 - Predefined channels:

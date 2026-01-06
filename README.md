@@ -1,16 +1,116 @@
-# chat_app
+# 📱 Real-Time Channel Messaging App (Flutter)
 
-A new Flutter project.
+A Slack-like real-time messaging mobile application built using **Flutter** and **Riverpod**, focusing on clean architecture, real-time UI updates, and polished user experience.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🎥 Demo Proof (Mandatory)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 
+### 📌 Recording Covers
+- Login with username & password
+- Viewing channel list (`#general`, `#random`)
+- Opening a channel
+- Sending messages
+- Receiving messages in real-time (mocked)
+- Switching between channels and observing message isolation
+- Real-time UI updates and auto-scroll behavior
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> 📎 **Demo Recording Link:**  
+> https://drive.google.com/file/d/11AsQN9vuF8_BqauSE2QiJaP425MvldPg/view?usp=drivesdk
+
+
+
+## 🚀 Features
+
+### 🔐 Authentication & Workspace
+- Mocked login with username & password validation
+- Automatically joins a **default workspace** after login
+
+### 📂 Channel List
+- Predefined channels:
+  - `#general`
+  - `#random`
+- Active channel highlight
+- Unread message count per channel
+- Workspace name displayed at the top
+
+### 💬 Channel Chat
+- Real-time message stream (mocked using Riverpod)
+- Optimistic UI updates on sending messages
+- Auto-scroll to latest message
+- Message bubble UI with:
+  - Sender name
+  - Timestamp
+  - Text message
+- Emoji reactions (👍 ❤️ 😂 🔥)
+- Inline reply support
+- Messages isolated per channel
+
+### 🎨 UI / UX
+- Slack-like layout and spacing
+- Keyboard-safe input bar
+- Empty and error states
+- Smooth scrolling with `ListView.builder`
+- **System-based Dark Mode** (Material 3)
+
+### 🧠 State Management
+- **Riverpod** for state management
+- Clear separation of:
+  - UI
+  - State
+  - Business logic
+
+---
+
+## 🛠 Tech Stack
+
+- Flutter
+- Dart
+- Riverpod
+- Material 3
+- Intl (for time formatting)
+
+---
+
+## 📁 Project Structure
+
+lib/
+├── models/
+│ └── message.dart
+├── providers/
+│ └── chat_provider.dart
+├── services/
+│ └── chat_service.dart
+├── screens/
+│ ├── login_screen.dart
+│ ├── channel_list_screen.dart
+│ └── chat_screen.dart
+└── main.dart
+
+
+---
+
+## 🧪 Mocked Backend
+
+This project uses a **mocked backend**:
+- No real server or database
+- Real-time behavior simulated using streams
+- Designed to focus on UI, state synchronization, and architecture
+
+---
+
+## 🌗 Dark Mode
+
+- Supports **system-based dark mode**
+- Automatically adapts based on device theme
+- Implemented using Material 3 `ColorScheme`
+
+---
+
+## ▶️ How to Run
+
+1 flutter pub get
+2. flutter run
+

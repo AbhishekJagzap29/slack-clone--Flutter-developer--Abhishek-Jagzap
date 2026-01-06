@@ -13,10 +13,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _obscurePassword = true; // 👁 toggle state
+
   /// 🔹 Common Input Decoration (theme-aware)
   InputDecoration _inputDecoration({
     required String label,
     required IconData icon,
+    Widget? suffixIcon,
     required BuildContext context,
   }) {
     final scheme = Theme.of(context).colorScheme;
@@ -24,9 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return InputDecoration(
       labelText: label,
       prefixIcon: Icon(icon, color: scheme.onSurfaceVariant),
+      suffixIcon: suffixIcon,
       filled: true,
       fillColor: scheme.surfaceVariant,
-
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -35,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
-
-      // ❌ No red borders on error
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -45,8 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
       ),
-
-      // ✔ Only red error text
       errorStyle: TextStyle(
         color: scheme.error,
         fontSize: 12,
@@ -64,14 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isDark
-                ? [
-                    scheme.surface,
-                    scheme.surfaceVariant,
-                  ]
-                : [
-                    const Color(0xFF4A148C),
-                    const Color(0xFF7B1FA2),
-                  ],
+                ? [scheme.surface, scheme.surfaceVariant]
+                : [const Color(0xFF4A148C), const Color(0xFF7B1FA2)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -88,14 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 32,
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      /// Logo
                       Image.asset(
                         'assets/images/slack.png',
                         height: 80,
@@ -138,14 +128,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       const SizedBox(height: 16),
 
-                      /// Password
+                      /// Password with 👁 toggle
                       TextFormField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: _obscurePassword,
                         decoration: _inputDecoration(
                           label: 'Password',
                           icon: Icons.lock_outline,
                           context: context,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {

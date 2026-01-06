@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/chat_provider.dart';
 import 'chat_screen.dart';
+import 'login_screen.dart';
 
 class ChannelListScreen extends ConsumerStatefulWidget {
   const ChannelListScreen({super.key});
@@ -19,6 +20,35 @@ class _ChannelListScreenState extends ConsumerState<ChannelListScreen> {
     '#random',
   ];
 
+  void _logout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LoginScreen(),
+                ),
+                (route) => false,
+              );
+            },
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final chatService = ref.read(chatServiceProvider);
@@ -32,6 +62,13 @@ class _ChannelListScreenState extends ConsumerState<ChannelListScreen> {
           'Channels',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
+            onPressed: () => _logout(context),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +124,6 @@ class _ChannelListScreenState extends ConsumerState<ChannelListScreen> {
                             color: colorScheme.primary,
                           ),
                           const SizedBox(width: 12),
-
                           Expanded(
                             child: Text(
                               channel,
@@ -100,8 +136,6 @@ class _ChannelListScreenState extends ConsumerState<ChannelListScreen> {
                               ),
                             ),
                           ),
-
-                          // ---------------- Unread Badge ----------------
                           if (unread > 0)
                             Container(
                               padding: const EdgeInsets.symmetric(

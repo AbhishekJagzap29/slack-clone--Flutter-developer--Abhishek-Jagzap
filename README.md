@@ -4,7 +4,7 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
 
 ---
 
-## 🎥 Demo Proof (Mandatory)
+## 🎥 Demo Proof 
 
 
 - 

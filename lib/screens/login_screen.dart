@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           icon: Icons.person_outline,
                         ),
                         validator: (v) => v == null || v.trim().isEmpty
-                            ? 'Username is required'
+                            ? 'Username required'
                             : null,
                       ),
                       const SizedBox(height: 18),
@@ -154,10 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: (v) {
                           if (v == null || v.isEmpty) {
-                            return 'Password is required';
+                            return 'Password required';
                           }
                           if (v.length < 4) {
-                            return 'Minimum 4 characters required';
+                            return 'At least 4 characters required';
                           }
                           return null;
                         },

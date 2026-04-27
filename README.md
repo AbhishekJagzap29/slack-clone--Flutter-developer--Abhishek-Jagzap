@@ -6,6 +6,13 @@ A Slack-like real-time messaging mobile application built using **Flutter** and 
 
 ## 🎥 Demo Proof 
 
+For Demo We Used Tech Stack 
+- Flutter
+- Dart
+- Riverpod
+- Material 3
+- Intl (for time formatting)
+
 ### 📌 Recording Covers
 - Login with username & password
 - Mocked login with username & password validation  
